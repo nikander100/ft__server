@@ -1,33 +1,17 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    Dockerfile                                         :+:    :+:             #
+#    start_server.sh                                    :+:    :+:             #
 #                                                      +:+                     #
 #    By: nvan-der <nvan-der@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
-#    Created: 2020/02/25 15:28:25 by nvan-der       #+#    #+#                 #
-#    Updated: 2020/02/28 17:00:05 by nvan-der      ########   odam.nl          #
+#    Created: 2020/02/28 16:14:08 by nvan-der       #+#    #+#                 #
+#    Updated: 2020/02/28 16:16:20 by nvan-der      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
-FROM debian:buster
+service nginx start
 
-RUN app-get update
-RUN app-get upgrade -y
-
-#Install nginx, wget, mariadb(MySQL), php
-
-RUN app-get install -y nginx
-RUN app-get install -y wget
-RUN app-get install -y mariadb-server
-RUN app-get install -y php7.3 php-fpm php-MySQL
-
-#copy files
-
-COPY /srcs/start_server.sh /var/start_server.sh
-
-#Start Server
-
-CMD bash /var/start_server.sh
-
-EXPOSE 80
+while true;
+	do sleep 10000;
+done
