@@ -6,21 +6,21 @@
 #    By: nvan-der <nvan-der@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/25 15:28:25 by nvan-der       #+#    #+#                 #
-#    Updated: 2020/02/28 17:00:05 by nvan-der      ########   odam.nl          #
+#    Updated: 2020/02/28 17:47:09 by nvan-der      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 FROM debian:buster
 
-RUN app-get update
-RUN app-get upgrade -y
+RUN apt-get update
+RUN apt-get upgrade -y
 
 #Install nginx, wget, mariadb(MySQL), php
 
-RUN app-get install -y nginx
-RUN app-get install -y wget
-RUN app-get install -y mariadb-server
-RUN app-get install -y php7.3 php-fpm php-MySQL
+RUN apt-get install -y nginx
+RUN apt-get install -y wget
+RUN apt-get install -y mariadb-server
+RUN apt-get install -y php7.3 php-fpm php-mysql
 
 #copy files
 
