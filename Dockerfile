@@ -6,7 +6,7 @@
 #    By: nvan-der <nvan-der@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/25 15:28:25 by nvan-der       #+#    #+#                 #
-#    Updated: 2020/03/03 18:27:01 by nvan-der      ########   odam.nl          #
+#    Updated: 2020/03/03 19:57:19 by nvan-der      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,18 +16,17 @@ RUN apt-get update
 RUN apt-get upgrade -y
 
 # Install nginx, wget, mariadb(MySQL), openssl, php 
-RUN apt-get install -y nginx wget mariadb-server openssl php7.3 php-fpm php-mysql php-cli
+RUN apt-get install -y nginx mariadb-server php7.3 php-mysql php-fpm php-cli php-mbstring wget
 
 # Copy files
 COPY ./srcs/start_server.sh /var/
-COPY ./srcs/config.inc.php /var/
 COPY ./srcs/mysql_setup.sql /var/
-COPY ./srcs/wordpress.tar.gz /var/www/html/
-# COPY ./srcs/php.ini /etc/php/7.3/fpm/
 # COPY ./srcs/wordpress.sql /var/
 COPY ./srcs/wordpress.tar.gz /var/www/html/
 COPY ./srcs/nginx.conf /etc/nging/sites-available/localhost
-# RUN ln -s /etc/nginx/sites-available/localhost /etc/nginx/sites-enabled/localhost
+# COPY ./srcs/php.ini /etc/php/7.3/fpm/
+# COPY ./srcs/phpmyadmin.sql /var/
+RUN ln -s /etc/nginx/sites-available/localhost /etc/nginx/sites-enabled/localhost
 
 # Install/Setup phpmyadmin
 WORKDIR /var/www/html
@@ -37,15 +36,15 @@ RUN mv phpMyAdmin-5.0.1-english phpmyadmin
 COPY ./srcs/config.inc.php phpmyadmin
 
 # Install/Setup Wordpress
-RUN tar xf wordpress.tar.gz && rm -f wordpress.tar.gz
-RUN chmod -R 755 wordpress
+RUN tar xf ./wordpress.tar.gz && rm -f wordpress.tar.gz
+RUN chmod -R 775 wordpress/
 
 # Setup Server
 RUN service mysql start
 # RUN service mysql start && mysql -u root mysql < /var/mysql_setup.sql && mysql wordpress -u root --password= < /var/wordpress.sql
 RUN openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/C=EN/ST=75/L=Amsterdam/O=42/CN=nvan-der' -keyout /etc/ssl/certs/localhost.key -out /etc/ssl/certs/localhost.crt
 RUN chown -R www-data:www-data *
-RUN chmod 775 -R /var/www/*
+RUN chmod 775 -R *
 
 # Start Server
 CMD bash /var/start_server.sh

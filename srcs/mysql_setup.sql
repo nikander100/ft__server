@@ -2,10 +2,10 @@ CREATE DATABASE wordpress;
 
 CREATE DATABASE phpmyadmin;
 
-GRANT ALL PRIVILEGES ON wordpress.* to 'root'@'localhost';
+GRANT ALL PRIVILEGES ON wordpress.* TO 'root'@'localhost';
 
-GRANT ALL PRIVILEGES ON phpmyadmin.* to 'root'@'localhost';
+GRANT ALL PRIVILEGES ON phpmyadmin.* TO 'root'@'localhost';
 
 FLUSH PRIVILEGES;
 
-UPDATE mysql.user set plugin = 'mysql_native_password' where user='root';
+update mysql.user set plugin = 'mysql_native_password' where user='root';
