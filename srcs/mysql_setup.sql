@@ -8,4 +8,4 @@ GRANT ALL PRIVILEGES ON phpmyadmin.* TO 'root'@'localhost';
 
 FLUSH PRIVILEGES;
 
-update mysql.user set plugin = 'mysql_native_password' where user='root';
+UPDATE mysql.user SET plugin = 'mysql_native_password' WHERE User = 'root'

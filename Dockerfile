@@ -6,7 +6,7 @@
 #    By: nvan-der <nvan-der@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/25 15:28:25 by nvan-der       #+#    #+#                 #
-#    Updated: 2020/03/03 19:57:19 by nvan-der      ########   odam.nl          #
+#    Updated: 2020/03/05 18:10:40 by nvan-der      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ COPY ./srcs/start_server.sh /var/
 COPY ./srcs/mysql_setup.sql /var/
 # COPY ./srcs/wordpress.sql /var/
 COPY ./srcs/wordpress.tar.gz /var/www/html/
-COPY ./srcs/nginx.conf /etc/nging/sites-available/localhost
+COPY ./srcs/nginx.conf /etc/nginx/sites-available/localhost
 # COPY ./srcs/php.ini /etc/php/7.3/fpm/
 # COPY ./srcs/phpmyadmin.sql /var/
 RUN ln -s /etc/nginx/sites-available/localhost /etc/nginx/sites-enabled/localhost
@@ -37,12 +37,12 @@ COPY ./srcs/config.inc.php phpmyadmin
 
 # Install/Setup Wordpress
 RUN tar xf ./wordpress.tar.gz && rm -f wordpress.tar.gz
-RUN chmod -R 775 wordpress/
+RUN chmod 755 -R wordpress/
 
 # Setup Server
-RUN service mysql start
 # RUN service mysql start && mysql -u root mysql < /var/mysql_setup.sql && mysql wordpress -u root --password= < /var/wordpress.sql
-RUN openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/C=EN/ST=75/L=Amsterdam/O=42/CN=nvan-der' -keyout /etc/ssl/certs/localhost.key -out /etc/ssl/certs/localhost.crt
+RUN service mysql start && mysql -u root mysql < /var/mysql_setup.sql
+RUN openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/C=NL/ST=NH/L=Amsterdam/O=42/CN=nvan-der' -keyout /etc/ssl/certs/localhost.key -out /etc/ssl/certs/localhost.crt
 RUN chown -R www-data:www-data *
 RUN chmod 775 -R *
 
