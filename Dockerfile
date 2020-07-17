@@ -5,8 +5,8 @@
 #                                                      +:+                     #
 #    By: nvan-der <nvan-der@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
-#    Created: 2020/02/25 15:28:25 by nvan-der       #+#    #+#                 #
-#    Updated: 2020/03/12 15:39:37 by nvan-der      ########   odam.nl          #
+#    Created: 2020/02/25 15:28:25 by nvan-der      #+#    #+#                  #
+#    Updated: 2020/07/17 20:31:24 by nvan-der      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ RUN chmod 755 -R wordpress/
 
 # Setup Server
 RUN service mysql start && mysql -u root mysql < /var/mysql_setup.sql && mysql wordpress -u root --password= < /var/wordpress.sql
-RUN openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/C=NL/ST=NH/L=Amsterdam/O=42/CN=nvan-der' -keyout /etc/ssl/certs/localhost.key -out /etc/ssl/certs/localhost.crt
+RUN openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/C=EN/ST=75/L=Amsterdam/O=42/CN=nvan-der' -keyout /etc/ssl/certs/localhost.key -out /etc/ssl/certs/localhost.crt
 RUN chown -R www-data:www-data *
 RUN chmod 775 -R * &&\
 	chmod -x /var/auto-index.sh
