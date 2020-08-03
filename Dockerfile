@@ -6,7 +6,7 @@
 #    By: nvan-der <nvan-der@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/25 15:28:25 by nvan-der      #+#    #+#                  #
-#    Updated: 2020/07/17 20:31:24 by nvan-der      ########   odam.nl          #
+#    Updated: 2020/08/03 17:34:31 by nvan-der      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ RUN	apt-get update &&\
 	apt-get upgrade -y
 
 # Install nginx, wget, openssl, mariadb(MySQL), php 
-RUN apt-get install -y nginx wget openssl mariadb-server php7.3 php-mysql php-fpm php-cli php-mbstring php-curl php-gd php-imagick php-dom php-zip
+RUN apt-get install -y nginx mariadb-server php7.3 php-mysql php-fpm php-cli php-mbstring wget
 
 # Copy files
 COPY ./srcs/start_server.sh ./srcs/auto-index.sh ./srcs/mysql_setup.sql ./srcs/wordpress.sql /var/
@@ -24,6 +24,7 @@ COPY ./srcs/wordpress.tar.gz /var/www/html/
 COPY ./srcs/nginx.conf /etc/nginx/sites-available/localhost
 COPY ./srcs/php.ini /etc/php/7.3/fpm/
 RUN ln -s /etc/nginx/sites-available/localhost /etc/nginx/sites-enabled/localhost
+RUN unlink /etc/nginx/sites-enabled/default
 
 # Install/Setup phpmyadmin
 WORKDIR /var/www/html
@@ -46,4 +47,4 @@ RUN chmod 775 -R * &&\
 # Start Server
 CMD bash /var/start_server.sh
 
-EXPOSE 80 433
+EXPOSE 80 443
